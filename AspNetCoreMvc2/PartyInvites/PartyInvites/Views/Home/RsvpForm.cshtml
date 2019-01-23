@@ -9,6 +9,11 @@
 <body>
     <div>
         <form asp-action="RsvpForm" method="post">
+            <div asp-validation-summary="All"></div>
+            <!--
+            When MVC renders a view, Razor has access to the details of any validation errors associated with the request, 
+                and tag helpers can access the details to display validation errors to the user
+            -->
             <p>
                 <label asp-for="Name">Your name:</label>
                 <input asp-for="Name" />
