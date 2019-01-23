@@ -19,3 +19,9 @@ Todo: be clear about the difference
 " MVC supports declarative validation rules defined with attributes from the System.ComponentModel.DataAnnotations namespace, meaning that validation constraints are expressed using the standard C# attribute features"
 
 MVC automatically detects the attributes and uses them to validate data during the model-binding process
+
+#### Web Artifacts
+
+ The convention is that third-party CSS and JavaScript packages are installed into the wwwroot/lib folder. Bootstrap etc..
+
+
