@@ -10,28 +10,34 @@ namespace PartyInvites.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        public ViewResult Index()
+        {
+            return View("MyView");
+        }
+
+        [HttpGet]
+        public ViewResult RsvpForm()
         {
             return View();
         }
 
-        public IActionResult About()
-        {
-            ViewData["Message"] = "Your application description page.";
 
+        [HttpPost]
+        public ViewResult RsvpForm(GuestResponse guestResponse)
+        {
+            Repository.AddResponse(guestResponse);
+            return View("Thanks", guestResponse);
+        }
+
+        [HttpGet]
+        public ViewResult Thanks(GuestResponse guestResponse)
+        {
             return View();
         }
 
-        public IActionResult Contact()
+        public ViewResult ListResponses()
         {
-            ViewData["Message"] = "Your contact page.";
-
-            return View();
-        }
-
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            return View(Repository.Responses.Where(r => r.WillAttend == true));
         }
     }
 }
