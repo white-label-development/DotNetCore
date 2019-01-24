@@ -17,7 +17,9 @@ namespace LanguageFeatures.Controllers
             {
                 string name = p?.Name;
                 decimal? price = p?.Price;
-                results.Add(string.Format("Name: {0}, Price: {1}", name, price));
+                string relatedName = p?.Related?.Name; //chained null conditional
+
+                results.Add(string.Format("Name: {0}, Price: {1}, Related: {2}", name, price, relatedName));
             }
             return View(results);
         }
