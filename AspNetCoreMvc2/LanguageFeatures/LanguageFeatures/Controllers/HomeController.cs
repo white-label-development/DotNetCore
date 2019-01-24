@@ -67,5 +67,11 @@ namespace LanguageFeatures.Controllers
             return View("Index", new string[] { $"Total: {total:C2}" });
         }
 
+
+        public async Task<ViewResult> TestAsyncAwait()
+        {
+            long? length = await AsyncMethods.GetPageLengthAsync();
+            return View("Index", new string[] { $"Length: {length}" });
+        }
     }
 }
