@@ -84,9 +84,9 @@ namespace LanguageFeatures.Controllers
                 new { Name = "Corner flag", Price = 34.95M }
             };
 
-            return View("Index", products.Select(p => $"Name: {p.Name}, Price: {p.Price}"));
+            //return View("Index", products.Select(p => $"Name: {p.Name}, Price: {p.Price}")); //string Name and Price are hardcoded
 
-            return View("Index", products.Select(p => $"{nameof(p.Name)}: {p.Name}, {nameof(p.Price)}: {p.Price}"));
+            return View("Index", products.Select(p => $"{nameof(p.Name)}: {p.Name}, {nameof(p.Price)}: {p.Price}")); //using nameof Expression we pull "Name" and "Price" from the object,
         }
     }
 }
