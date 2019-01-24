@@ -19,9 +19,53 @@ namespace LanguageFeatures.Controllers
                 decimal? price = p?.Price;
                 string relatedName = p?.Related?.Name; //chained null conditional
 
-                results.Add(string.Format("Name: {0}, Price: {1}, Related: {2}", name, price, relatedName));
+                //results.Add(string.Format("Name: {0}, Price: {1}, Related: {2}", name, price, relatedName));
+                results.Add($"Name: {name}, Price: {price}, Related: {relatedName}"); //string interpolation
+
+                //  Collection Initializer Syntax 
+                Dictionary<string, Product> products = new Dictionary<string, Product>
+                {
+                    ["Kayak"] = new Product { Name = "Kayak", Price = 275M },
+                    ["Lifejacket"] = new Product { Name = "Lifejacket", Price = 48.95M }
+                };
+
             }
             return View(results);
         }
+
+
+        public ViewResult PatternMatching()
+        {
+            object[] data = new object[] { 275M, 29.95M, "apple", "orange", 100, 10 };
+            decimal total = 0;
+
+            for (int i = 0; i < data.Length; i++)
+            {
+                if (data[i] is decimal d) { total += d; } //The is keyword performs a type check
+            }
+
+            return View("Index", new string[] { $"Total: {total:C2}" });
+        }
+
+        public ViewResult PatternMatchingInSwitch()
+        {
+            object[] data = new object[] { 275M, 29.95M, "apple", "orange", 100, 10 };
+            decimal total = 0;
+            for (int i = 0; i < data.Length; i++)
+            {
+                // To match any value of a specific type, use the type and variable name in the case statement,
+                switch (data[i])
+                {
+                    case decimal decimalValue:
+                        total += decimalValue;
+                        break;
+                    case int intValue when intValue > 50:
+                        total += intValue; break;
+                }
+            }
+
+            return View("Index", new string[] { $"Total: {total:C2}" });
+        }
+
     }
 }
