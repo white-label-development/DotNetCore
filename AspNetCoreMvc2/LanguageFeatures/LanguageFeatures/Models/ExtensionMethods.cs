@@ -38,5 +38,18 @@ namespace LanguageFeatures.Models
             //Product[] productArray = { new Product { Name = "Kayak", Price = 275M }, new Product { Name = "Lifejacket", Price = 48.95M } };
             //decimal arrayTotal = productArray.TotalPrices();
         }
+
+
+        //This extension method, called FilterByPrice, takes an additional parameter that allows me to filter products
+        //so that Product objects whose Price property matches or exceeds the parameter are returned in the resul
+        public static IEnumerable<Product> FilterByPrice(this IEnumerable<Product> productEnum, decimal minimumPrice)
+        {
+            foreach (Product prod in productEnum)
+            {
+                if ((prod?.Price ?? 0) >= minimumPrice) { yield return prod; }
+            }
+
+            //eg: decimal arrayTotal = productArray.FilterByPrice(20).TotalPrices()
+        }
     }
 }
