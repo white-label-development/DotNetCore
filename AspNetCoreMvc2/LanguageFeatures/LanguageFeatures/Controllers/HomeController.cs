@@ -73,5 +73,20 @@ namespace LanguageFeatures.Controllers
             long? length = await AsyncMethods.GetPageLengthAsync();
             return View("Index", new string[] { $"Length: {length}" });
         }
+
+        public ViewResult UsingNameOf()
+        {
+            var products = new[]
+            {
+                new { Name = "Kayak", Price = 275M },
+                new { Name = "Lifejacket", Price = 48.95M },
+                new { Name = "Soccer ball", Price = 19.50M },
+                new { Name = "Corner flag", Price = 34.95M }
+            };
+
+            return View("Index", products.Select(p => $"Name: {p.Name}, Price: {p.Price}"));
+
+            return View("Index", products.Select(p => $"{nameof(p.Name)}: {p.Name}, {nameof(p.Price)}: {p.Price}"));
+        }
     }
 }
