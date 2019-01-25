@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
+using SportsStore.Models;
 
 namespace SportsStore
 {
@@ -15,6 +16,10 @@ namespace SportsStore
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            // when a component, such as a controller, needs an implementation of the IProductRepository interface, it should receive an instance of the FakeProductRepository class. T
+            // he AddTransient method specifies that a new FakeProductRepository object should be created each time the IProductRepository interface is needed
+            services.AddTransient<IProductRepository, FakeProductRepository>();
+
             services.AddMvc();
         }
 
