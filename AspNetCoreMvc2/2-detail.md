@@ -49,6 +49,9 @@ The NuGet tool keeps track of the project’s packages in the \{projectname\}.cspr
 ```
  You can also edit the .csproj file directly and Visual Studio will detect changes and download and install the packages added (cool!)
 
+Note: for Core 2.1: Replace the package reference for `Microsoft.AspNetCore.All` with a package reference for `Microsoft.AspNetCore.App`
+https://docs.microsoft.com/en-us/aspnet/core/migration/20_21?view=aspnetcore-2.2
+
 
 #### Bower
 
