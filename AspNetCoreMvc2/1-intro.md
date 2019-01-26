@@ -11,7 +11,11 @@ In Windows Explorer, Shift+RightClick a folder to gain "Open in Powershell" from
 
 https://docs.microsoft.com/en-us/dotnet/core/tutorials/using-with-xplat-cli
 
+#### EF
 
+See Evernote.
+
+LocalDB database creates .mdf files in the C:/Users/{user} directory.
 
 
 
