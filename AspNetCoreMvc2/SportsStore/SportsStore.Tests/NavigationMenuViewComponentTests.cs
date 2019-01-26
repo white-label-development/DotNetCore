@@ -45,8 +45,10 @@ namespace SportsStore.Tests {
                 new Product {ProductID = 1, Name = "P1", Category = "Apples"},
                 new Product {ProductID = 4, Name = "P2", Category = "Oranges"},
             }).AsQueryable<Product>());
+
             NavigationMenuViewComponent target =
                 new NavigationMenuViewComponent(mock.Object);
+
             target.ViewComponentContext = new ViewComponentContext {
                 ViewContext = new ViewContext {
                     RouteData = new RouteData()
