@@ -30,6 +30,8 @@ namespace SportsStore
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration["ConnectionStrings:SportStoreProducts"]));
                             
             services.AddMvc();
+            services.AddMemoryCache(); // sets up the in-memory data store
+            services.AddSession(); // registers the services used to access session data
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -49,6 +51,8 @@ namespace SportsStore
 
             app.UseStatusCodePages();
             app.UseStaticFiles();
+            app.UseSession(); // allows the session system to automatically associate requests with sessions when they arrive from the client
+
             app.UseMvc(routes => {
 
                 routes.MapRoute(
