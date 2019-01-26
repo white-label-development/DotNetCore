@@ -13,15 +13,15 @@ namespace SportsStore.Components
         {
             repository = repo;
         }
-        public string Invoke() { return "Hello from the Nav View Component"; }
-        //public IViewComponentResult Invoke()
-        //{
+        //public string Invoke() { return "Hello from the Nav View Component"; }
+        public IViewComponentResult Invoke()
+        {
 
-        //    ViewBag.SelectedCategory = RouteData?.Values["category"];
-        //    return View(repository.Products
-        //        .Select(x => x.Category)
-        //        .Distinct()
-        //        .OrderBy(x => x));
-        //}
+            ViewBag.SelectedCategory = RouteData?.Values["category"];
+            return View(repository.Products
+                .Select(x => x.Category)
+                .Distinct()
+                .OrderBy(x => x));
+        }
     }
 }
