@@ -12,5 +12,19 @@ namespace SportsStore.Controllers
         {
             return View();
         }
+
+        public static int DescendingOrder(int num)
+        {
+            if (num < 0) throw new ArgumentException("num must be non-negative");
+
+            // Bust a move right here
+            var numbers = num.ToString().Select(c => (int)Char.GetNumericValue(c));
+
+
+            string numStr = numbers.OrderByDescending(x => x).Aggregate("", (current, i) => current + i);
+
+
+            return int.Parse(numStr);
+        }
     }
 }
