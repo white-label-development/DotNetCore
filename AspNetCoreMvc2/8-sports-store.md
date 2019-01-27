@@ -22,3 +22,7 @@ The value of any attribute whose name begins with this prefix will be added to t
 which is then passed to the IUrlHelper.Action method to generate the URL for the href attribute of the a elements that the tag helper produces. 
 
 `<div page-url-category="@Model.CurrentCategory" ...`
+
+#### Services
+
+"Services are most commonly used to hide details of how interfaces are implemented from the components that depend on them"
