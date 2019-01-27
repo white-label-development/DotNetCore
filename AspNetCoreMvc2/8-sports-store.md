@@ -26,3 +26,16 @@ which is then passed to the IUrlHelper.Action method to generate the URL for the
 #### Services
 
 "Services are most commonly used to hide details of how interfaces are implemented from the components that depend on them"
+
+see `ConfigureServices`, 
+
+eg: `services.AddScoped<Cart>(sp => SessionCart.GetCart(sp));`
+
+allows a SessionCare to be injected when a Cart is requested:
+```
+public CartController(IProductRepository repo, Cart cartService)
+{
+    repository = repo;
+    cart = cartService;
+}
+```

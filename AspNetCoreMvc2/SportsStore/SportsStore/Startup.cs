@@ -28,7 +28,15 @@ namespace SportsStore
             services.AddTransient<IProductRepository, EFProductRepository>();
 
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration["ConnectionStrings:SportStoreProducts"]));
-                            
+
+            services.AddScoped<Cart>(sp => SessionCart.GetCart(sp)); //scoped to the same http request.
+                                                                     //The expression receives the collection of services that have been registered and passes the collection to the GetCart method of the SessionCart class.
+                                                                     //The result is that requests for the Cart service will be handled by creating SessionCart objects, which will serialize themselves as session data when they are modified. 
+
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            //The service I created tells MVC to use the HttpContextAccessor class when implementations of the IHttpContextAccessor interface are required.
+            //This service is required so I can access the current session in the SessionCart class GetCart, ie: ISession session = services.GetRequiredService<IHttpContextAccessor>()?.HttpContext.Session;
+
             services.AddMvc();
             services.AddMemoryCache(); // sets up the in-memory data store
             services.AddSession(); // registers the services used to access session data
