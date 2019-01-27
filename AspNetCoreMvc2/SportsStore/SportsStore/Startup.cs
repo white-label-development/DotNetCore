@@ -26,6 +26,7 @@ namespace SportsStore
             // The AddTransient method specifies that a new FakeProductRepository object should be created each time the IProductRepository interface is needed
             //services.AddTransient<IProductRepository, FakeProductRepository>(); //drop the fake, we are using EF now..
             services.AddTransient<IProductRepository, EFProductRepository>();
+            services.AddTransient<IOrderRepository, EFOrderRepository>();
 
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration["ConnectionStrings:SportStoreProducts"]));
 
