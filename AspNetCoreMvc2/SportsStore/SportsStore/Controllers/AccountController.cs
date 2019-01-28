@@ -17,7 +17,11 @@ namespace SportsStore.Controllers
         {
             userManager = userMgr;
             signInManager = signInMgr;
-            //IdentitySeedData.EnsurePopulated(userMgr); //.Wait();
+
+
+            //These changes will ensure that the Identity database is seeded every time that an AccountController object is created to handle an HTTP request.
+            //This is not ideal, of course, but there is no good way to seed a database (<-- this is a shit technique imo)
+            IdentitySeedData.EnsurePopulated(userMgr).Wait();
         }
 
         [AllowAnonymous]

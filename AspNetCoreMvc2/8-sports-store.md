@@ -50,3 +50,10 @@ Authentication and authorization are provided by the ASP.NET Core Identity syste
 New Az sub. Free Trial.
 
 Added `appsettings.production.json` 
+
+from PowerShell:
+```
+> $env:ASPNETCORE_ENVIRONMENT="Production"
+> dotnet ef database update --context ApplicationDbContext 
+> dotnet ef database update --context AppIdentityDbContext
+```
