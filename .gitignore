@@ -194,3 +194,4 @@ experiments/ConsoleApp1/.vs/ConsoleApp1/v15/Server/sqlite3/db.lock
 experiments/ConsoleApp1/.vs/ConsoleApp1/v15/Server/sqlite3/storage.ide
 experiments/ConsoleApp1/.vs/ConsoleApp1/v15/Server/sqlite3/storage.ide-shm
 experiments/ConsoleApp1/.vs/ConsoleApp1/v15/Server/sqlite3/storage.ide-wal
+AspNetCoreMvc2/SportsStore/SportsStore/appsettings.production.json
