@@ -102,11 +102,11 @@ namespace SportsStore
                 routes.MapRoute(name: "default", template: "{controller=Product}/{action=List}/{id?}");
             });
 
-            if (env.IsDevelopment())
-            {
-                SeedData.EnsurePopulated(app);
-                IdentitySeedData.EnsurePopulated(app);
-            }
+            //if (env.IsDevelopment())
+            //{
+            //    SeedData.EnsurePopulated(app);
+            //    IdentitySeedData.EnsurePopulated(app);
+            //}
         }
     }
 

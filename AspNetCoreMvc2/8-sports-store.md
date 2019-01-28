@@ -57,3 +57,5 @@ from PowerShell:
 > dotnet ef database update --context ApplicationDbContext 
 > dotnet ef database update --context AppIdentityDbContext
 ```
+
+reworked SeedData, then Publish (in ch12 example anyway. Later look at Azure Dev Ops)
