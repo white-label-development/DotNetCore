@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -29,6 +30,11 @@ namespace SportsStore
             services.AddTransient<IOrderRepository, EFOrderRepository>();
 
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration["ConnectionStrings:SportStoreProducts"]));
+            services.AddDbContext<AppIdentityDbContext>(options => options.UseSqlServer(Configuration["ConnectionStrings:SportStoreIdentity"]));
+
+
+            services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<AppIdentityDbContext>().AddDefaultTokenProviders();
+
 
             services.AddScoped<Cart>(sp => SessionCart.GetCart(sp)); //scoped to the same http request.
                                                                      //The expression receives the collection of services that have been registered and passes the collection to the GetCart method of the SessionCart class.
@@ -61,6 +67,9 @@ namespace SportsStore
             app.UseStatusCodePages();
             app.UseStaticFiles();
             app.UseSession(); // allows the session system to automatically associate requests with sessions when they arrive from the client
+            app.UseAuthentication(); //  set up the components that will intercept requests and responses to implement the security policy.
+
+
 
             app.UseMvc(routes => {
 
@@ -92,6 +101,7 @@ namespace SportsStore
 
 
             SeedData.EnsurePopulated(app);
+            IdentitySeedData.EnsurePopulated(app);
         }
     }
 }

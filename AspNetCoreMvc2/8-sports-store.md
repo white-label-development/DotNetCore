@@ -9,7 +9,7 @@ Startup routes eg: `routes.MapRoute(  name: "default", template: "{controller=Pr
 "The UseMvc method sets up the MVC middleware, and one of the configuration options is the scheme that will be used to map URLs to controllers and action methods."
 
 
-#### Tage Helpers
+#### Tag Helpers
 
 ```
 [HtmlAttributeName(DictionaryAttributePrefix = "page-url-")]
@@ -39,3 +39,7 @@ public CartController(IProductRepository repo, Cart cartService)
     cart = cartService;
 }
 ```
+
+#### Security
+
+Authentication and authorization are provided by the ASP.NET Core Identity system.
