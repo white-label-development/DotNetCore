@@ -43,3 +43,10 @@ public CartController(IProductRepository repo, Cart cartService)
 #### Security
 
 Authentication and authorization are provided by the ASP.NET Core Identity system.
+
+
+#### Deployment
+
+New Az sub. Free Trial.
+
+Added `appsettings.production.json` 

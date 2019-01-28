@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -57,7 +53,13 @@ namespace SportsStore
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseStatusCodePages();
             }
+            else
+            {
+                app.UseExceptionHandler("/Error");
+            }
+
 
             //app.Run(async (context) =>
             //{
@@ -71,7 +73,8 @@ namespace SportsStore
 
 
 
-            app.UseMvc(routes => {
+            app.UseMvc(routes =>
+            {
 
                 routes.MapRoute(
                     name: null,
@@ -99,9 +102,14 @@ namespace SportsStore
                 routes.MapRoute(name: "default", template: "{controller=Product}/{action=List}/{id?}");
             });
 
-
-            SeedData.EnsurePopulated(app);
-            IdentitySeedData.EnsurePopulated(app);
+            if (env.IsDevelopment())
+            {
+                SeedData.EnsurePopulated(app);
+                IdentitySeedData.EnsurePopulated(app);
+            }
         }
     }
+
+
 }
+
