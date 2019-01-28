@@ -50,17 +50,18 @@ namespace SportsStore
         // Each method that I call in the Configure method is an extension method that sets up an HTTP request processor
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-                app.UseStatusCodePages();
-            }
-            else
-            {
-                app.UseExceptionHandler("/Error");
-            }
+            //if (env.IsDevelopment())
+            //{
+            //    app.UseDeveloperExceptionPage();
+            //    app.UseStatusCodePages();
+            //}
+            //else
+            //{
+            //    app.UseExceptionHandler("/Error");
+            //}
 
-
+            app.UseDeveloperExceptionPage();
+            app.UseStatusCodePages();
             //app.Run(async (context) =>
             //{
             //    await context.Response.WriteAsync("Hello World!");
