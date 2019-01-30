@@ -3,11 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using SportsStore.Infrastructure;
+using SportsStore.Models;
 
 namespace SportsStore.Controllers
 {
     public class NeilController : Controller
     {
+        private readonly Neil _neilModel;
+
+        public NeilController(Neil neilModel)
+        {
+            _neilModel = neilModel;
+        }
+
         public IActionResult Index()
         {
             return View();
@@ -26,5 +35,8 @@ namespace SportsStore.Controllers
 
             return int.Parse(numStr);
         }
+
+
+        public string Uptime() => _neilModel.Uptime;
     }
 }

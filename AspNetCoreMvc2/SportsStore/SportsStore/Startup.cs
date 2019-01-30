@@ -42,6 +42,7 @@ namespace SportsStore
             //This service is required so I can access the current session in the SessionCart class GetCart, ie: ISession session = services.GetRequiredService<IHttpContextAccessor>()?.HttpContext.Session;
 
             services.AddSingleton<UptimeService>();
+            services.AddTransient<Neil>();
 
             services.AddMvc(); //  sets up every service that MVC needs without filling up the ConfigureServices method with an enormous list of individual services.
             services.AddMemoryCache(); // sets up the in-memory data store
