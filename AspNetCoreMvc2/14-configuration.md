@@ -39,11 +39,23 @@ which is the set of components—known as middleware— that are used to handle inco
 
 Next ASP.NET is ready to start handling Requests.
 
-##### Built in MVC Services
+##### Built in MVC Services and ASP.NET Middleware
+
+eg: `services.AddMvc()`
+
+Middleware is the term used for the components that are combined to form the request pipeline.  T
+he request pipeline is arranged like a chain, and when a new request arrives, 
+it is passed to the first middleware component in the chain. 
+This component inspects the request and decides whether to handle it and generate a response or 
+to pass it to the next component in the chain. 
+Once a request has been handled, the response that will be returned to the client is passed back along the chain, 
+which allows all of the earlier components to inspect or modify it (request goes through the pipeline, hits the "backstop" then back the other way and out to the client)
 
 
+##### Content-Generating Middleware
 
-
+Such as MVC. See `SportsStore.Infrastructure.ContentMiddleware` which is registered in Configure() 
+as `app.UseMiddleware<ContentMiddleware>(); `
 
 
 

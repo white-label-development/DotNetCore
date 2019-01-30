@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using SportsStore.Infrastructure;
 using SportsStore.Models;
 
 namespace SportsStore
@@ -40,7 +41,7 @@ namespace SportsStore
             //The service I created tells MVC to use the HttpContextAccessor class when implementations of the IHttpContextAccessor interface are required.
             //This service is required so I can access the current session in the SessionCart class GetCart, ie: ISession session = services.GetRequiredService<IHttpContextAccessor>()?.HttpContext.Session;
 
-            services.AddMvc();
+            services.AddMvc(); //  sets up every service that MVC needs without filling up the ConfigureServices method with an enormous list of individual services.
             services.AddMemoryCache(); // sets up the in-memory data store
             services.AddSession(); // registers the services used to access session data
         }
@@ -72,7 +73,7 @@ namespace SportsStore
             app.UseSession(); // allows the session system to automatically associate requests with sessions when they arrive from the client
             app.UseAuthentication(); //  set up the components that will intercept requests and responses to implement the security policy.
 
-
+            app.UseMiddleware<ContentMiddleware>(); //ch14 example
 
             app.UseMvc(routes =>
             {
