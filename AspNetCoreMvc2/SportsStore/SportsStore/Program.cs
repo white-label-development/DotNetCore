@@ -21,7 +21,7 @@ namespace SportsStore
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
-                .UseDefaultServiceProvider(options => options.ValidateScopes = false); //not sure about ValidateScopes. Research...
+                .UseDefaultServiceProvider(options => options.ValidateScopes = false); //ValidateScopes needs to be false for EF Core, for some reason.
 
         public static IWebHost BuilWebHostManually(string[] args)
         {
@@ -61,7 +61,7 @@ namespace SportsStore
                     options.ValidateScopes =
                         context.HostingEnvironment.IsDevelopment();
                 })
-                .UseStartup<Startup>()
+                .UseStartup(nameof(SportsStore))
                 .Build();
         }
 

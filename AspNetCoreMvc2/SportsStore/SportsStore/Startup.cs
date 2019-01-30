@@ -44,10 +44,14 @@ namespace SportsStore
             services.AddSingleton<UptimeService>();
             services.AddTransient<Neil>();
 
-            services.AddMvc(); //  sets up every service that MVC needs without filling up the ConfigureServices method with an enormous list of individual services.
+            services.AddMvc(); //  sets up every service that MVC needs without filling up the ConfigureServices method with an enormous list of individual services. Has extension methods for fine tuning configuration
             services.AddMemoryCache(); // sets up the in-memory data store
             services.AddSession(); // registers the services used to access session data
         }
+
+        //only applies in a development environment. used INSTEAD of ConfigureServices if env matches.
+        //public void ConfigureDevelopmentServices(IServiceCollection services) { services.AddSingleton<UptimeService>(); services.AddMvc(); }
+
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         // The Configure method is used to set up the features that receive and process HTTP requests.
@@ -114,6 +118,14 @@ namespace SportsStore
             //    IdentitySeedData.EnsurePopulated(app);
             //}
         }
+
+        //only applies in a development environment
+        //public void ConfigureDevelopment(IApplicationBuilder app, IHostingEnvironment env)
+        //{
+        //    // blah
+        //}
+
+        //the next level of this is rather than have env specific methods, use classes, eg: StartupDevelopment
     }
 
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using SportsStore.Infrastructure;
 using SportsStore.Models;
 
@@ -11,10 +12,13 @@ namespace SportsStore.Controllers
     public class NeilController : Controller
     {
         private readonly Neil _neilModel;
+        private ILogger<NeilController> logger;
 
-        public NeilController(Neil neilModel)
+        public NeilController(Neil neilModel, ILogger<NeilController> lo)
         {
             _neilModel = neilModel;
+            logger.LogDebug($"Handled {Request.Path} at uptime {_neilModel.Uptime}");
+            //logger.LogCritical("ouch");
         }
 
         public IActionResult Index()

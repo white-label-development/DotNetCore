@@ -101,7 +101,7 @@ if ((Configuration.GetSection("ShortCircuitMiddleware")?
   .GetValue<bool>("EnableBrowserShortCircuit")).Value) { ... }
 ```
 
-Ca bu used to configure logging, eg:
+Can be used to configure logging, eg:
 ```
   "Logging": {
     "LogLevel": {
@@ -116,9 +116,22 @@ LoggingLevels: Trace, Debug, Information, Warning, Error, Critical, None.
 Default: Debug (or greater)
 System and Microsoft (overrides) refer to logging levels for specific Namespaces
 
+##### Custom Log Messages
+In NeilController add `private ILogger<NeilController> logger;` set with ctor injections, 
+then `logger.LogDebug("whatevs");`
+
+Does not see to need the service defining in Startup. Maybe part of `services.AddMvc();` ?
 
 
+#### Environment specific configuration
 
+Add methods which override to `Startup`, eg: `ConfigureDevelopmentServices(IServiceCollection services)`
+
+or add class based overrides eg `StartupDevelopment` will replace `StartupDevelopment` (in development)
+
+Enable Environment-Specific Startup in the Program.cs File `.UseStartup(nameof(SportsStore))` , as opposed to `.UseStartup<Startup>()`
+
+(Rather than specifying a class, the UseStartup method is given the name of the assembly that it should use. When the application starts, ASP.NET will look for a class whose name includes the hosting environment, such as StartupDevelopment or StartupProduction, and fall back to using the regular Startup class if one does not exist.)
 
 
 
