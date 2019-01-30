@@ -54,24 +54,20 @@ namespace SportsStore
         // Each method that I call in the Configure method is an extension method that sets up an HTTP request processor
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            //if (env.IsDevelopment())
-            //{
-            //    app.UseDeveloperExceptionPage();
-            //    app.UseStatusCodePages();
-            //}
-            //else
-            //{
-            //    app.UseExceptionHandler("/Error");
-            //}
+            if (env.IsDevelopment())
+            {
+                // The UseDeveloperExceptionPage method sets up an error-handling middleware component that displays details of the exception in the response, including the exception trace.
+                // This isn’t information that should be displayed to users
+                app.UseDeveloperExceptionPage();
+                app.UseStatusCodePages(); // The UseStatusCodePages method adds descriptive messages to responses that contain no content, such as 404 - Not Found response
+            }
+            else
+            {
+                // This method sets up an error handling that allows a custom error message to be displayed that won’t reveal the inner workings of the application. 
+                app.UseExceptionHandler("/Error");
+            }
 
-            app.UseDeveloperExceptionPage();
-            app.UseStatusCodePages();
-            //app.Run(async (context) =>
-            //{
-            //    await context.Response.WriteAsync("Hello World!");
-            //});
-
-            app.UseStatusCodePages();
+                       
             app.UseStaticFiles();
             app.UseSession(); // allows the session system to automatically associate requests with sessions when they arrive from the client
             app.UseAuthentication(); //  set up the components that will intercept requests and responses to implement the security policy.
