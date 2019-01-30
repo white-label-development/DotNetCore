@@ -31,6 +31,33 @@ namespace SportsStore.Infrastructure
                 await httpContext.Response.WriteAsync(
                     "This is from the content middleware " +
                     $"(uptime: {uptime.Uptime}ms)", Encoding.UTF8);
+
+                await nextDelegate.Invoke(httpContext); //test. continue must be explicit. this passes to ContentMiddleware2 ok
+            }
+            else
+            {
+                await nextDelegate.Invoke(httpContext);
+            }
+        }
+    }
+
+    public class ContentMiddleware2
+    {
+        // Ensuring we can chain these
+
+        private RequestDelegate nextDelegate;
+        
+
+        public ContentMiddleware2(RequestDelegate next) => nextDelegate = next;            
+        
+
+
+        // Information about the HTTP request and the response that will be returned to the client is provided through the HttpContext argument to the Invoke method
+        public async Task Invoke(HttpContext httpContext)
+        {
+            if (httpContext.Request.Path.ToString().ToLower() == "/middleware")
+            {
+                await httpContext.Response.WriteAsync("This is from ContentMiddleware2");
             }
             else
             {

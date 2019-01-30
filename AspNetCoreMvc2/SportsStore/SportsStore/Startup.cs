@@ -76,7 +76,12 @@ namespace SportsStore
             app.UseSession(); // allows the session system to automatically associate requests with sessions when they arrive from the client
             app.UseAuthentication(); //  set up the components that will intercept requests and responses to implement the security policy.
 
+            app.UseMiddleware<ErrorMiddleware>(); // Response-Editing Middleware FIRST: as can only inspect middleware declared after it. anything before is unavailable.
+            app.UseMiddleware<BrowserTypeMiddleware>(); // Request-Editing Middleware: set this before consumers as creates httpContext.Item that is consumed in ShortCircuitMiddleware
+            app.UseMiddleware<ShortCircuitMiddleware>(); //apply shortcircuit before content (or it's too late)
             app.UseMiddleware<ContentMiddleware>(); //ch14 example
+            app.UseMiddleware<ContentMiddleware2>(); //spike chained middleware. ok. returns "This is from the content middleware (uptime: 179ms)This is from ContentMiddleware2"
+
 
             app.UseMvc(routes =>
             {
