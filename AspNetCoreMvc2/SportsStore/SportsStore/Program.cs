@@ -36,6 +36,7 @@ namespace SportsStore
             return new WebHostBuilder()
                 .UseKestrel()
                 .UseContentRoot(Directory.GetCurrentDirectory())
+
                 .ConfigureAppConfiguration((hostingContext, config) => {
                     var env = hostingContext.HostingEnvironment;
                     config.AddJsonFile("appsettings.json",
@@ -48,12 +49,13 @@ namespace SportsStore
                         config.AddCommandLine(args);
                     }
                 })
+
                 .ConfigureLogging((hostingContext, logging) => {
-                    logging.AddConfiguration(
-                        hostingContext.Configuration.GetSection("Logging"));
+                    logging.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
                     logging.AddConsole();
                     logging.AddDebug();
                 })
+
                 .UseIISIntegration()
                 .UseDefaultServiceProvider((context, options) => {
                     options.ValidateScopes =

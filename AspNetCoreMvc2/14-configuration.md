@@ -88,6 +88,35 @@ anything before is unavailable. see `SportsStore.Infrastructure.ErrorMiddleware`
 see `app.UseExceptionHandler("/Home/Error")`
 
 
+#### appsettings.json
+
+Can contain any data, not just config stuff. eg:
+```
+{  "ShortCircuitMiddleware": { "EnableBrowserShortCircuit": true } }
+```
+then (in Configure)
+
+```
+if ((Configuration.GetSection("ShortCircuitMiddleware")?
+  .GetValue<bool>("EnableBrowserShortCircuit")).Value) { ... }
+```
+
+Ca bu used to configure logging, eg:
+```
+  "Logging": {
+    "LogLevel": {
+      "Default": "Debug",
+      "System": "Information",
+      "Microsoft": "Information"
+    }
+  }
+```
+LoggingLevels: Trace, Debug, Information, Warning, Error, Critical, None.
+
+Default: Debug (or greater)
+System and Microsoft (overrides) refer to logging levels for specific Namespaces
+
+
 
 
 
