@@ -1,4 +1,6 @@
-﻿using SportsStore.Infrastructure;
+﻿using System;
+using System.Linq;
+using SportsStore.Infrastructure;
 
 namespace SportsStore.Models
 {
@@ -15,5 +17,7 @@ namespace SportsStore.Models
         }
 
         public string Uptime => $"up for {_uptimeService.Uptime.ToString()} milliseconds";
+
+
     }
 }

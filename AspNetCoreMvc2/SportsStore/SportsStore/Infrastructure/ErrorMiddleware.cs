@@ -21,10 +21,10 @@ namespace SportsStore.Infrastructure
             {
                 await httpContext.Response.WriteAsync("Edge not supported", Encoding.UTF8);
             }
-            else if (httpContext.Response.StatusCode == 404)
-            {
-                await httpContext.Response.WriteAsync("No content middleware response", Encoding.UTF8);
-            }
+            //else if (httpContext.Response.StatusCode == 404)
+            //{
+            //    await httpContext.Response.WriteAsync("No content middleware response", Encoding.UTF8);
+            //}
         }
     }
 }

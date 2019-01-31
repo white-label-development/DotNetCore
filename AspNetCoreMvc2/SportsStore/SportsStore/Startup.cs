@@ -82,7 +82,9 @@ namespace SportsStore
             app.UseMiddleware<ContentMiddleware>(); //ch14 example
             app.UseMiddleware<ContentMiddleware2>(); //spike chained middleware. ok. returns "This is from the content middleware (uptime: 179ms)This is from ContentMiddleware2"
 
+            //app.UseMvcWithDefaultRoute();
 
+            //note: curly bracket part of route is termed a segment
             app.UseMvc(routes =>
             {
 
@@ -104,12 +106,12 @@ namespace SportsStore
                     defaults: new { controller = "Product", action = "List", productPage = 1 }
                 );
 
-                routes.MapRoute(
-                    name: null,
-                    template: "",
-                    defaults: new { controller = "Product", action = "List", productPage = 1 });
+                //routes.MapRoute(
+                //    name: null,
+                //    template: "{product}/{",
+                //    defaults: new { controller = "Product", action = "List", productPage = 1 });
 
-                routes.MapRoute(name: "default", template: "{controller=Product}/{action=List}/{id?}");
+                routes.MapRoute(name: "default", template: "{controller=Product}/{action=Index}/{id?}");
             });
 
             //if (env.IsDevelopment())
