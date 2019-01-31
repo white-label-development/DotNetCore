@@ -22,7 +22,7 @@ Segment variables are put into RouteData `RouteData.Values["myVal"]; `
 ```
 /Customer/List/All/Delete/Perm => controller = Customer, action = List, id = All, catchall = Delete/Perm
 
-inliine contraints (see :int) ` template: "{controller=Home}/{action=Index}/{id:int?}");` 
+inline contraints (see :int) ` template: "{controller=Home}/{action=Index}/{id:int?}");` 
 replace the old `,constraints: new { id = new IntRouteConstraint() }`
 
 regexs: `template: "{controller:regex(^H.*)=Home}/{action=Index}/{id?}");`
@@ -50,4 +50,35 @@ Appears to support both convention and attribute routing at the same time (check
  ##### generate outgoing URLs 
 
 
+`<a asp-action="NameOfActionMethod">This is an outgoing URL</a>`
 
+`<a asp-controller="Admin" asp-action="Index">This targets another controller</a>`
+
+`<a asp-controller="Home" asp-action="Index" asp-route-id="Hello">This is an outgoing URL</a>`
+
+```
+<a asp-controller="Home" asp-action="Index" asp-route-id="Hello"       
+asp-protocol="https" asp-host="myserver.mydomain.com"       
+asp-fragment="myFragment">This is an outgoing URL</a
+```
+
+`<a asp-route="nameOfMyRoute">This is an outgoing URL</a>` use named route
+
+` <p>URL: @Url.Action("CustomVariable", "Home", new { id = 100 })</p>` good old url.action, which can also be used in controllers 
+` var url = Url.Action("CustomVariable", "Home", new { id = 100 }); `
+
+
+in this route definition, myVar is a default-only variable:
+` routes.MapRoute("MyRoute", "{controller}/{action}", new { myVar = "true" });`
+
+For this route to be a match, i must take care to not supply a value for myvar or to make sure that the value i do supply matches the default value. 
+
+```
+[Area("Admin")] 
+public class HomeController : Controller { 
+```
+Without the Area attribute, controllers are not part of an area even if they are defined in the main part of the application.
+
+`[Route("[area]/app/[controller]/actions/[action]/{id:weekday?}")].`
+
+` <a asp-action="Index" asp-controller="Home" asp-route-area="aDifferentArea">Link</a>` areas are created by default, but can be overriden.
