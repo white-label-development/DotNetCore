@@ -105,12 +105,27 @@ PhysicalFileResult (read file and send content)
 
 ..and Status Code Action Results (StatusCodeResult, OkResult, NotFoundResult  etc..  )
 
+####  Service Life Cycles 
 
+##### `AddTransient<service, implType>()`
+This method tells the service provider to create a new instance of the implementation type for every dependency on the service type
 
+“Using the Transient Life Cycle:
 
+##### `AddTransient<service>()`
+This method is used to register a single type, which will be instantiated for every dependency
 
+Using Dependency Injection for Concrete Types:
 
+##### `AddTransient<service>(factoryFunc`
+This method is used to register a factory function that will be invoked to create an implementation object for every dependency on the service type
 
+Using a Factory Function:
+
+##### `AddScoped<service, implType>() AddScoped<service>() AddScoped<servi ce>(factoryFunc)`
+These methods tell the service provider to reuse instances of the implementation type so that all service requests made by components associated with a common scope, which is usually a single HTTP request, share the same object. These methods follow the same pattern as the corresponding AddTransient method
+
+Using the Scoped Life Cycle:
 
 
 
