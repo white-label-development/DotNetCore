@@ -74,5 +74,47 @@ The extension automatically monitors the input files for changes and regenerates
 (versioning ??? v1.1.2 etc)
 
 
+#### Controller Action Results
+
+`IActionResult` (return anthing that implements the interface)
+
+`ViewResult` (the action result that provides access to the Razor view engine, which processes .cshtml files to incorporate model data and sends the result to the client through the HttpResponse context engine)
+
+##### The Content Action Results
+JsonResult `public JsonResult Index() => Json(new[] { "Alice", "Bob", "Joe" });`
+
+ContentResult ( This action result sends a response whose body contains a specified object. string ann optional meme type )
+`public ContentResult Index()  => Content("[\"Alice\",\"Bob\",\"Joe\"]", "application/json")` No content negotiation means the client might not cope.
+
+ObjectResult ( This action result will use content negotiation to send an object to the client.) 
+
+OkObjectResult ( send an object to the client with an HTTP 200 status code if the content negotiation is successful. )
+`public ObjectResult Index() => Ok(new string[] { "Alice", "Bob", "Joe" });`
+
+NotFoundObjectResult (send an object to the client with an HTTP 404 status code if the content negotiation is successful.)
+
+Also
+
+FileContentResult (byte[], mime type)
+
+FileStreamResult  (read stream and send content)
+
+VirtualFileResult (read stream from a virtual path) `public VirtualFileResult Index() => File("/lib/bootstrap/dist/css/bootstrap.css", "text/css");`
+
+PhysicalFileResult (read file and send content)
+
+..and Status Code Action Results (StatusCodeResult, OkResult, NotFoundResult  etc..  )
+
+
+
+
+
+
+
+
+
+
+
+
 
 
