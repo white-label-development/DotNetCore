@@ -110,22 +110,86 @@ PhysicalFileResult (read file and send content)
 ##### `AddTransient<service, implType>()`
 This method tells the service provider to create a new instance of the implementation type for every dependency on the service type
 
-“Using the Transient Life Cycle:
+“Using the Transient Life Cycle: `AddTransient`  tells the service provider to create a new instance of the implementation type whenever it needs to resolve a dependency.
+ The transient life cycle incurs the cost of creating a new instance of the implementation class every time a dependency is resolved, 
+but the advantage is that you don’t have to worry about managing concurrent access or ensure that objects can be safely reused for multiple requests.
+
+
+
+
+
 
 ##### `AddTransient<service>()`
 This method is used to register a single type, which will be instantiated for every dependency
 
 Using Dependency Injection for Concrete Types:
 
-##### `AddTransient<service>(factoryFunc`
+##### `AddTransient<service>(factoryFunc)`
 This method is used to register a factory function that will be invoked to create an implementation object for every dependency on the service type
 
 Using a Factory Function:
+One version of the AddTransient method accepts a factory function that is invoked every time there is a dependency on the service type. 
+This allows the object that is created to be varied so that different dependencies receive instances of different types or instances that are configured differently.
 
-##### `AddScoped<service, implType>() AddScoped<service>() AddScoped<servi ce>(factoryFunc)`
+eg:
+```
+services.AddTransient<IRepository>(provider => { 
+    if (env.IsDevelopment()) {
+        var x = provider.GetService<MemoryRepository>();                    
+        return x;                
+    } else {                    
+        return new AlternateRepository();                
+    }            
+});
+```
+
+The expression receives a System.IServiceProvider object, which can be used to create instances of other types that have been registered with the service provider.
+
+Note the use of GetService to create the object -  because MemoryRepository has its own dependency on the IModelStorage interface and using the service provider to create the object means that detecting and resolving the dependency will be managed automatically
+— but it does mean I have to specify the life cycle that should be used for MemoryRepository objects, like this:
+`services.AddTransient<MemoryRepository>();` Without this statement, the service provider would not have the information it needs to create and manage MemoryRepository objects.
+
+AlternateRepository can be created directly using the new keyword because it doesn’t declare any dependencies in its constructor.
+
+
+
+
+##### `AddScoped<service, implType>(); AddScoped<service>(); AddScoped<service>(factoryFunc);`
 These methods tell the service provider to reuse instances of the implementation type so that all service requests made by components associated with a common scope, which is usually a single HTTP request, share the same object. These methods follow the same pattern as the corresponding AddTransient method
 
 Using the Scoped Life Cycle:
+This life cycle creates a single object from the implementation class that is used to resolve all of the dependencies associated with a single scope, 
+which generally means a single HTTP request. Since the default scope is the HTTP request, this life cycle allows for a single object to be shared by all the components that process a request and is most often used for sharing common context data when writing custom classes, such as routes
+
+
+##### Action injection
+
+eg: `public ViewResult Index([FromServices]ProductTotalizer totalizer) { ... }`
+
+Is useful when you have a dependency on an object that is expensive to create and that is required in only one of the action methods defined by a controller.
+
+
+
+##### manual "injection"
+
+`IRepository repository = HttpContext.RequestServices.GetService<IRepository>()`
+Service locator pattern - for when injection via startup can't be used.
+
+#### Filters
+
+for cross-cutting concerns (logging, authorization, caching etc).
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
