@@ -179,16 +179,49 @@ Service locator pattern - for when injection via startup can't be used.
 
 for cross-cutting concerns (logging, authorization, caching etc).
 
+Global filters are applied once in the Startup class and, as their name suggests, are automatically applied to every action method in every controller in the application
 
 
+#### API Controllers
+
+Now integrated into ASP.NET Core MVC. JSON by default. XML via SrartUp ` services.AddMvc().AddXmlDataContractSerializerFormatters`
+
+`patch.ApplyTo(res);` ?? ApplyTo ??
+
+If you return null from an apI controller action method, then the client will be sent a 204 – No Content response. 
+
+Can use powershell to test `Invoke-RestMethod http://localhost:7000/api/reservation -Method GET`
+
+and `Invoke-RestMethod http://localhost:7000/api/reservation -Method POST -Body  (@{clientName="Anne"; location="Meeting Room 4"} | ConvertTo-Json) -ContentType "application/json"`
+
+The Patch Format is used for patches. Here ClientName and Location are being patched:
+
+`Invoke-RestMethod http://localhost:7000/api/reservation/2 -Method PATCH -Body (@ { op="replace"; path="clientName"; value="Bob"},@{ op="replace"; path="location"; value="Lecture Hall"} | ConvertTo-Json)  -ContentType "application/json"`
 
 
+```
+[Produces("application/json")]        
+public Reservation GetObject() => ... //override the content negotiation system and specify a data format directly 
+```
+
+and
+
+```
+[HttpPost]        
+[Consumes("application/xml")]        
+public Reservation ReceiveXml([FromBody] Reservation reservation) { ... }
+```
+
+#### Views
 
 
+Useful RazorPage\<T\> Properties for View Development :
 
+Model, ViewData, ViewCOntext, Layout, ViewBag, TempData, Context, User, RenderSection(), RenderBody(), IsSectionDefined()
 
+The Razor Helper Properties : HtmlEncoder, Component, Json, Url, Html
 
-
+##### View Components
 
 
 
