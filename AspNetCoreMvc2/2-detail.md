@@ -3,10 +3,53 @@
 #### New Tag Helpers, eg:
 `<a asp-action="RsvpForm">RSVP Now</a>`
 
-`<label asp-for="Name">Your name:</label>`            
+`<form method="post" asp-controller="Home" asp-action="Create"> `
 
+`<label asp-for="Name">Your name:</label>` 
+
+`<input class="form-control" asp-for="Population" asp-format="{0:#,###}" />` ... or via Model attributes `[DisplayFormat(DataFormatString = "{0:F2}", ApplyFormatInEditMode = true)]`           
+
+`<select class="form-control" asp-for="Country" asp-items="ViewBag.Countries"> <option disabled selected value="">Select a Country</option></select>`
+
+Replaces clunky html helpers (can still use html helpers tho).
 
 see Jon Hilton's Cheat Sheet at <https://jonhilton.net/aspnet-core-forms-cheat-sheet/>
+
+Roll your own:
+
+```
+using Microsoft.AspNetCore.Razor.TagHelpers;
+namespace Cities.Infrastructure.TagHelpers {
+    public class ButtonTagHelper : TagHelper {
+        public string BsButtonColor { get; set; }
+        public override void Process(TagHelperContext context, TagHelperOutput output) {
+            output.Attributes.SetAttribute("class", $"btn btn-{BsButtonColor}");        
+        }   
+ } 
+}
+```
+The naming convention (ButtonTagHelper)  means that the Process method will be invoked for every button element in every view in the application.
+So my html `<button type="submit" bs-button-color="danger">Add</button> ` is rendered as`<button type="submit" class="btn btn-danger">Add</button>`
+
+The addition of the new css class will happen by default even if the button does not have a matching property atribute.
+To limit the scope use attibutes on  class ButtonTagHelper `[HtmlTargetElement("button", Attributes = "bs-button-color", ParentTag = "form")]`
+
+To widen the scope (apply Process to multiple elements (not just Button in this case)) `[HtmlTargetElement(Attributes = "bs-button-color", ParentTag = "form")]` 
+= an anchor element with the matching attribute would have the css class injected.
+
+Alternatively, apply multiple named elements attributes
+```
+[HtmlTargetElement("button", Attributes = "bs-button-color", ParentTag = "form")]    
+[HtmlTargetElement("a", Attributes = "bs-button-color", ParentTag = "form")]
+```
+
+To work, the helper must be registered with @addTagHelper in the View ot ViewImports file 
+eg: `@addTagHelper Cities.Infrastructure.TagHelpers.*, Cities`  The first part of the argument specifies the names of the tag helper classes, with support for wildcards, and the second part specifies the name of the assembly in which they are define
+
+##### The Built-In Tag Helper Attributes for Form Elements
+
+asp-controller, asp-action, asp-route-* (eg:asp-route-page=23), asp-route, asp-are, asp-antiforgery
+
 
 
 #### Controller return types
@@ -222,6 +265,25 @@ Model, ViewData, ViewCOntext, Layout, ViewBag, TempData, Context, User, RenderSe
 The Razor Helper Properties : HtmlEncoder, Component, Json, Url, Html
 
 ##### View Components
+
+Replace child action feature.  View components are classes that provide action-style logic to support partial views (by providing data).
+Used for repeated, embedded fnuctionality lick a shopping basket summary or login/auth panel - this "data" might be required on a page whose main function is something else.
+Without components, that pages' view model would need to contain the additional "unrelated" data.
+
+A POCO view component (doesn't use MVC APIs) is any class whose name ends with ViewComponent and that defines an Invoke method `public string Invoke(){...}`. 
+Placed in /Components. `@await Component.InvokeAsync(nameof(myClass)`
+
+Normally it makes sense to not use a POCO, but derive from ViewComponent base. 
+You don’t need to include ViewComponent in the class name when you derive from the base class. 
+Instead of Invoke just returning a string, consider ViewViewComponentResult (return a view), 
+ContentViewComponentResult (return encoded text), HtmlContentViewComponentResult  (return a HTML fragment).
+
+Also InvokeAsync. Component logic can go into a normal controller
+```
+[ViewComponent(Name = "ComboComponent")]   
+public class CityController : Controller { .. }
+```
+and `  @await Component.InvokeAsync("ComboComponent")`
 
 
 
