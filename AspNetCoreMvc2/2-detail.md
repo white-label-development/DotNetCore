@@ -5,7 +5,7 @@
 
 `<form method="post" asp-controller="Home" asp-action="Create"> `
 
-`<label asp-for="Name">Your name:</label>` 
+`<label asp-for="Person.Name">Your name:</label>` 
 
 `<input class="form-control" asp-for="Population" asp-format="{0:#,###}" />` ... or via Model attributes `[DisplayFormat(DataFormatString = "{0:F2}", ApplyFormatInEditMode = true)]`           
 
@@ -306,6 +306,30 @@ Also InvokeAsync. Component logic can go into a normal controller
 public class CityController : Controller { .. }
 ```
 and `  @await Component.InvokeAsync("ComboComponent")`
+
+
+#### Model Binding
+
+`public ViewResult DisplaySummary( [Bind(Prefix = nameof(Person.HomeAddress))] AddressSummary summary)`
+
+ When populating the properties of the AddressSummary object, the model binder will look for HomeAddress.City and HomeAddress.Country data values in the request
+
+
+#### Model Validation
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
