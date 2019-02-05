@@ -51,12 +51,34 @@ eg: `@addTagHelper Cities.Infrastructure.TagHelpers.*, Cities`  The first part o
 asp-controller, asp-action, asp-route-* (eg:asp-route-page=23), asp-route, asp-are, asp-antiforgery
 
 
+#### Other Tag Helpers
+
+```
+<environment names="development">        
+    <div class="m-1 p-1 bg-info"><h2>This is Development</h2></div>    
+</environment>    
+<environment names="production">        
+    <div class="m-1 p-1 bg-danger"><h2>This is Production</h2></div>    
+</environment>
+```
+
+Globbing patterns for file (scripts, css) helpers, eg: ? , *, ** (single, multiple, multiple including /)
+
+`asp-append-version="true"` adds a checksum version to the files (which differs when changed ofc)
+
+CDN fallback helpers are a nice new feature for when src fails: `<asp-fallback-src-include>` (end exclude) 
+
+MVC Data Cache
+
+```
+<cache expires-after="@TimeSpan.FromSeconds(15)">        
+    @await Component.InvokeAsync("Time")    
+</cache>
+```
 
 #### Controller return types
 
-Original MVC controller actions return a `IActionResult` wheras the demo returns a `ViewResult`. 
-
-Todo: be clear about the difference
+`IActionResult` vs`ViewResult`. be clear about the difference
 
 #### Validation (same so far)
 " MVC supports declarative validation rules defined with attributes from the System.ComponentModel.DataAnnotations namespace, meaning that validation constraints are expressed using the standard C# attribute features"
