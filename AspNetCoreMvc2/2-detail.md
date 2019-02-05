@@ -317,9 +317,18 @@ and `  @await Component.InvokeAsync("ComboComponent")`
 
 #### Model Validation
 
+Tag helpers spit out a class of `input-validation-error` (which still can't be configured to be something else, annoyingly.)
 
-
-
+Can make custom tag helpers or just use jQuery, eg:
+```
+@section scripts {    
+<script src="/lib/jquery/dist/jquery.min.js"></script>    
+<script type="text/javascript">        
+    $(document).ready(function () {            
+        $("input.input-validation-error").closest(".form-group").addClass("has-danger");        
+    });   
+ </script> 
+```
 
 
 
