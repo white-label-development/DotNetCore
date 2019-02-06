@@ -28,5 +28,33 @@ namespace SportsStore.Controllers
             r.Data["catchall"] = RouteData.Values["catchall"];
             return View("Result", r);
         }
+
+        //Remote Validation Action example
+        //used as an attribute in the model, eg:
+
+        /*
+         * [Remote("ValidateDate", "Customer")]
+         *  public DateTime Date { get; set;}
+         *
+         *  the validation action method will be called when the user first submits the form and then again each time the data is edited.
+         * For text input elements, every keystroke will lead to a call to the server
+         */
+
+        public JsonResult ValidateDate(string Date)
+        {
+            DateTime parsedDate;
+            if (!DateTime.TryParse(Date, out parsedDate))
+            {
+                return Json("Please enter a valid date (mm/dd/yyyy)");
+            }
+            else if (DateTime.Now > parsedDate)
+            {
+                return Json("Please enter a date in the future");
+            }
+            else
+            {
+                return Json(true);
+            }
+        }
     }
 }

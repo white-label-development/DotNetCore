@@ -122,6 +122,11 @@ https://docs.microsoft.com/en-us/aspnet/core/migration/20_21?view=aspnetcore-2.2
 
 Bower packages are specified through the bower.json file.  the repository for Bower packages is http://bower.io/search, where you can search for packages to add to your project.
 
+"the Bower tool doesn’t always perform the installation of the validation packages correctly. 
+if you find that your wwwroot/lib folder doesn’t contain the files that are required, 
+then remove wwwroot/lib and its contents. open a new powerShell window, 
+navigate to the project folder and run bower cache clean followed by bower install to download fresh copies of the validation packages."
+
 
 #### Static Content Delivery 
 
@@ -330,20 +335,52 @@ Can make custom tag helpers or just use jQuery, eg:
  </script> 
 ```
 
+Summary is the same ` <div asp-validation-summary="ModelOnly" class="text-danger"></div>`
+
+The model binder has a set of predefined messages that it uses for validation errors. 
+These can be replaced with custom messages using the methods defined by the DefaultModelBindingMessageProvider class 
+eg: `SetValueMustNotBeNullAccessor `
+```
+ services.AddMvc().AddMvcOptions(opts => opts.ModelBindingMessageProvider.SetValueMustNotBeNullAccessor(value => "Please enter a value")); 
+```
+
+Property level is more or less the same `<div><span asp-validation-for="ClientName" class="text-danger"></span></div> `
+
+5 Built in Validation Attributes. Best used with `[Display(Name = "name")]`
+
+  * `[Compare("OtherProperty")]` 
+  * `[Range(10, 20)]` or `[Range(typeof(bool), "true", "true", ErrorMessage="You must accept the terms")] `
+  * `[RegularExpression("pattern")`
+  * `[Required(ErrorMessage = "Please enter a date")]`
+  * `[StringLength(10)]`
+
+Roll your own. Inherit from Attribute and implement IModelValidator, eg: `public class MustBeTrueAttribute : Attribute, IModelValidator`
 
 
+#### Client Side Validation
 
+MVC supports unobtrusive client-side validation. 
 
+The term unobtrusive means that validation rules are expressed using attributes added to the HTML elements that views generate. 
+These attributes are interpreted by a JavaScript library that is included as part of MVC that, in turn, configures the jQuery Validation library, which does the actual validation work.
 
+require jQuery, "jquery-validation" and "jquery-validation-unobtrusive"
 
+When the tag helpers transform the input elements, they inspect the validation attributes applied to the model class property 
+and add attributes to the output element eg: `data-val="true"    data-val-required="The name field is required.`
 
+The JavaScript code looks for elements with the data-val attribute and performs local validation in the browser when the user submits the form
 
+Use `novalidate` to cancel built in html 5 validation messages being triggered as well, 
+such as from the `required' input element attribute.
 
+In a project try to stick to either MVC client validation or "vanilla" jQuert=y validation
 
+##### Remote Validation
 
+eg: is username unique. Uses Action methods and a model attributes eg: ` [Remote("ValidateDate", "Home")]`
 
-
-
-
+NOTE:  the validation action method will be called when the user first submits the form and then again each time the data is edited. 
+For text input elements, every keystroke will lead to a call to the server (hmnnn...)
 
 
