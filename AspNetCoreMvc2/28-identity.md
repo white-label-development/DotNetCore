@@ -47,6 +47,15 @@ add static CreateAdminAccount method to AppIdentityDbContext, and call it from S
 AppIdentityDbContext.CreateAdminAccount(app.ApplicationServices, Configuration).Wait(); 
 ```
 
+#### Updating Identity classes (AppUser)
+
+If we add noew fields to AppUser and need to create a new EF migration remember to disable (comment out) any seeding
+as EF can't cope.  The seeding statement can be enabled again once the database migration has been created and applied.
+
+PS: `dotnet ef migrations add CustomProperties` and `dotnet ef database update`
+
+
+
 #### Applying Identity
 
 
@@ -58,7 +67,9 @@ Same as ever ` [Authorize(Roles = "Users")]`
 Default route for an action which can't be accessed is a redirect to  /Account/AccessDenied 
 
 
+##### Claims and Policies
 
+A claim is a piece of information about the user, along with some information about where the information came from.
 
 
 

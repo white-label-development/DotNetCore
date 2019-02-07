@@ -64,7 +64,8 @@ namespace Users
             app.UseAuthentication(); // adds ASP.NET Core Identity to the request-handing pipeline, which allows user credentials to be associated with requests based on cookies or URL rewriting
             app.UseMvcWithDefaultRoute();
 
-            AppIdentityDbContext.CreateAdminAccount(app.ApplicationServices, Configuration).Wait();
+            //comment out when making migrations (sigh)
+            //AppIdentityDbContext.CreateAdminAccount(app.ApplicationServices, Configuration).Wait();
         }
     }
 }
