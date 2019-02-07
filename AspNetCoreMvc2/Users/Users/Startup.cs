@@ -42,8 +42,10 @@ namespace Users
                     opts.Password.RequireDigit = false;
                 }).AddEntityFrameworkStores<AppIdentityDbContext>()
                 .AddDefaultTokenProviders();
+            // Can make  CustomPasswordValidator : IPasswordValidator<AppUser> and registering  services.AddTransient<IPasswordValidator<AppUser>, CustomPasswordValidator>();
+            // Can make  CustomUserValidator : IUserValidator<AppUser>  ...  services.AddTransient<IUserValidator<AppUser>, CustomUserValidator>();
             // The AddEntityFrameworkStores method specifies that Identity should use Entity Framework Core to store and retrieve its data, using the database context class.
-            //A ddDefaultTokenProviders method uses the default configuration to support operations that require a token, such as changing a password
+            // A ddDefaultTokenProviders method uses the default configuration to support operations that require a token, such as changing a password
 
 
             services.AddMvc();
@@ -61,6 +63,8 @@ namespace Users
             app.UseStaticFiles();
             app.UseAuthentication(); // adds ASP.NET Core Identity to the request-handing pipeline, which allows user credentials to be associated with requests based on cookies or URL rewriting
             app.UseMvcWithDefaultRoute();
+
+            AppIdentityDbContext.CreateAdminAccount(app.ApplicationServices, Configuration).Wait();
         }
     }
 }
