@@ -384,3 +384,22 @@ NOTE:  the validation action method will be called when the user first submits t
 For text input elements, every keystroke will lead to a call to the server (hmnnn...)
 
 
+#### Secrets
+
+(In Azure use the Azure Key Vault configuration provider)
+
+Set using CLI, eg PS: `dotnet user-secrets set "Authentication:Google:ClientSecret" "<client secret>"`
+
+https://docs.microsoft.com/en-us/aspnet/core/security/app-secrets?view=aspnetcore-2.2&tabs=windows
+
+Uses Environment variables to override any others. ??wtf are they talking about appsettings.deployment.json ??
+
+
+The Secret Manager stores app secrets outside the project tree (and source control). Can be assocaited with multiple projects.
+
+he Secret Manager tool doesn't encrypt the stored secrets and shouldn't be treated as a trusted store. It's for development purposes only. 
+The keys and values are stored in a JSON configuration file in the user profile directory. `%APPDATA%\Microsoft\UserSecrets\<user_secrets_id>\secrets.json`
+
+In VS, from a Project, 
+
+
