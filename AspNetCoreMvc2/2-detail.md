@@ -384,15 +384,13 @@ NOTE:  the validation action method will be called when the user first submits t
 For text input elements, every keystroke will lead to a call to the server (hmnnn...)
 
 
-#### Secrets
+#### Secrets (for development)
 
-(In Azure use the Azure Key Vault configuration provider)
+(In Azure use the Azure Key Vault configuration provider - seems to be same process but .json not stored in AppData, obviously)
 
 Set using CLI, eg PS: `dotnet user-secrets set "Authentication:Google:ClientSecret" "<client secret>"`
 
 https://docs.microsoft.com/en-us/aspnet/core/security/app-secrets?view=aspnetcore-2.2&tabs=windows
-
-Uses Environment variables to override any others. ??wtf are they talking about appsettings.deployment.json ??
 
 
 The Secret Manager stores app secrets outside the project tree (and source control). Can be assocaited with multiple projects.
@@ -400,6 +398,41 @@ The Secret Manager stores app secrets outside the project tree (and source contr
 he Secret Manager tool doesn't encrypt the stored secrets and shouldn't be treated as a trusted store. It's for development purposes only. 
 The keys and values are stored in a JSON configuration file in the user profile directory. `%APPDATA%\Microsoft\UserSecrets\<user_secrets_id>\secrets.json`
 
-In VS, from a Project, 
+In VS, from a Project, select Manage User Secrets from the context menu. 
+This gesture adds a UserSecretsId element, populated with a GUID, to the .csproj file and creates an empty secrets.json file in AppData,
+which can then have json app secrets (like a connection string) put into it.
 
+Can be manually edited or via CLI PS:`dotnet user-secrets remove "Movies:ConnectionString"`
 
+The user secrets configuration source is automatically added in development mode when the project calls CreateDefaultBuilder
+or manually `if (env.IsDevelopment()){builder.AddUserSecrets<Startup>();}`
+
+Retrieved using IConfiguration
+
+```
+public Startup(IConfiguration configuration)
+{
+    Configuration = configuration;
+}
+..
+_moviesApiKey = Configuration["Movies:ServiceApiKey"];
+var moviesConfig = Configuration.GetSection("Movies").Get<MovieSettings>(); //where MovieSettings is our poco
+```
+
+##### String replacement with secrets
+
+remote password from appsettings.json constr eg: delete "Password=pass123"
+
+set an app secret ps:`dotnet user-secrets set "DbPassword" "pass123"`
+
+The secret's value can be set on a SqlConnectionStringBuilder object's Password property 
+to complete the connection string:
+
+```
+public void ConfigureServices(IServiceCollection services)
+{
+    var builder = new SqlConnectionStringBuilder(Configuration.GetConnectionString("Movies"));
+    builder.Password = Configuration["DbPassword"];
+    _connection = builder.ConnectionString;
+}
+```
