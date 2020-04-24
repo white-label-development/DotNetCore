@@ -27,7 +27,7 @@ namespace BethanysPieShopHRM.Server
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddRazorPages();
-            services.AddServerSideBlazor();
+            services.AddServerSideBlazor().AddCircuitOptions(op => { op.DetailedErrors = true; });
             //services.AddSingleton<WeatherForecastService>();
         }
 

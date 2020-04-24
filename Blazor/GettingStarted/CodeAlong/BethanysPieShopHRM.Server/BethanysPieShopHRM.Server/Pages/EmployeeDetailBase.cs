@@ -3,18 +3,28 @@ using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace BethanysPieShopHRM.Server.Pages
 {
-    public class EmployeeOverviewBase : ComponentBase
+    public class EmployeeDetailBase : ComponentBase
     {
+
+        [Parameter]
+        public string EmployeeId { get; set; }
+
+        public Employee Employee { get; set; } = new Employee();
+
 
         protected override Task OnInitializedAsync()
         {
             InitializeCountries();
             InitializeEmployees();
             InitializeJobCategories();
+
+            Employee = Employees.FirstOrDefault(x => x.EmployeeId == int.Parse(EmployeeId));
+
             return base.OnInitializedAsync();
         }
 
