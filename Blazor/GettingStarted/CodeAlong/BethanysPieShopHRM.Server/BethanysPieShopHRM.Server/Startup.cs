@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BethanysPieShopHRM.Server.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Hosting;
@@ -28,7 +29,22 @@ namespace BethanysPieShopHRM.Server
         {
             services.AddRazorPages();
             services.AddServerSideBlazor().AddCircuitOptions(op => { op.DetailedErrors = true; });
-            //services.AddSingleton<WeatherForecastService>();
+
+            //services.AddHttpClient();
+            services.AddHttpClient<IEmployeeDataService, EmployeeDataService>(client =>
+            {
+                client.BaseAddress = new Uri("https://localhost:44340/");
+            });
+
+            services.AddHttpClient<ICountryDataService, CountryDataService>(client =>
+            {
+                client.BaseAddress = new Uri("https://localhost:44340/");
+            });
+
+            services.AddHttpClient<IJobCategoryDataService, JobCategoryDataService>(client =>
+            {
+                client.BaseAddress = new Uri("https://localhost:44340/");
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
