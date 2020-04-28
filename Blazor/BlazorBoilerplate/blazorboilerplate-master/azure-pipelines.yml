@@ -1,0 +1,41 @@
+# ASP.NET
+# Build and test ASP.NET projects.
+# Add steps that publish symbols, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/apps/aspnet/build-aspnet-4
+
+pool:
+  vmImage: 'windows-2019'
+
+variables:
+  solution: '**/*.sln'
+  buildPlatform: 'Any CPU'
+  buildConfiguration_CSB: 'Release_CSB'
+  buildConfiguration_SSB: 'Release_SSB'
+
+
+steps:
+- task: UseDotNet@2
+  displayName: 'Install SDK'
+  inputs:
+    packageType: sdk
+    version: '3.1.x'
+    includePreviewVersions: true
+
+# - task: NuGetToolInstaller@0
+
+- script: dotnet build ./src/BlazorBoilerplate.sln --configuration $(buildConfiguration_CSB)
+  displayName: 'dotnet build blazorboilerplate ClientSide'
+
+- script: dotnet build ./src/BlazorBoilerplate.sln --configuration $(buildConfiguration_SSB)
+  displayName: 'dotnet build blazorBoilerplate ServerSide'
+
+- task: DotNetCoreCLI@2
+  displayName: 'Publishing ClientSide App...'
+  inputs:
+    command: publish
+    publishWebProjects: true
+    arguments: '--configuration $(buildConfiguration_CSB) --output $(Build.ArtifactStagingDirectory)'
+    zipAfterPublish: false
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publishing Build Artifacts...'
