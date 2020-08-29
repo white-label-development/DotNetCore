@@ -3,7 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30330.147
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InvoiceManagementApp", "InvoiceManagementApp\InvoiceManagementApp.csproj", "{05E5C98F-7A1D-4521-929B-87C5A567C93F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InvoiceManagementApp", "InvoiceManagementApp\InvoiceManagementApp.csproj", "{05E5C98F-7A1D-4521-929B-87C5A567C93F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InvoiceManagementApp.Domain", "InvoiceManagementApp.Domain\InvoiceManagementApp.Domain.csproj", "{166CA256-AEB7-4ECE-98CC-18B672D6D525}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InvoiceManagementApp.Application", "InvoiceManagementApp.Application\InvoiceManagementApp.Application.csproj", "{387D03E6-9E96-4F54-A377-BCBF98323142}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InvoiceManagementApp.Infrastructure", "InvoiceManagementApp.Infrastructure\InvoiceManagementApp.Infrastructure.csproj", "{C19A795F-894C-43C0-9421-5E38091C5F57}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +21,18 @@ Global
 		{05E5C98F-7A1D-4521-929B-87C5A567C93F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{05E5C98F-7A1D-4521-929B-87C5A567C93F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{05E5C98F-7A1D-4521-929B-87C5A567C93F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{166CA256-AEB7-4ECE-98CC-18B672D6D525}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{166CA256-AEB7-4ECE-98CC-18B672D6D525}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{166CA256-AEB7-4ECE-98CC-18B672D6D525}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{166CA256-AEB7-4ECE-98CC-18B672D6D525}.Release|Any CPU.Build.0 = Release|Any CPU
+		{387D03E6-9E96-4F54-A377-BCBF98323142}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{387D03E6-9E96-4F54-A377-BCBF98323142}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{387D03E6-9E96-4F54-A377-BCBF98323142}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{387D03E6-9E96-4F54-A377-BCBF98323142}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C19A795F-894C-43C0-9421-5E38091C5F57}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C19A795F-894C-43C0-9421-5E38091C5F57}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C19A795F-894C-43C0-9421-5E38091C5F57}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C19A795F-894C-43C0-9421-5E38091C5F57}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
