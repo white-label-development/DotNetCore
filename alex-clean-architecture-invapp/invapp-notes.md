@@ -1,13 +1,21 @@
 # Invoice Management App exploration
 
-from https://alexcodetuts.com/2020/02/05/asp-net-core-3-1-clean-architecture-invoice-management-app-part-1/
+ https://alexcodetuts.com/2020/02/05/asp-net-core-3-1-clean-architecture-invoice-management-app-part-1/
 
 Domain: contains the entities or types
+
 Application: contains business logic and depends on domain layer.
+
 Presentation / Infrastructure: depends only in Application layer.
+
 Infrastructure contains external concerns like the type of database while Presentation layer is responsible for presenting the data to the client application
 
-## 1
++ Presentation (the web app) & .Infrastructure depend on > .Application
++ Presentation also depends on > Infrastructure (so `Program` can see `ApplicationDbContext`)
++ .Application depends on .Domain
++ .Domain has no project dependencies
+
+## 1 Setup
 
 Created:
 
@@ -40,8 +48,43 @@ Create DependencyInjection.cs in Infrastructure root. Adds an extension method `
 
  Note: uses localDb, so it's just an .mdf in Users dir. Use VS > View > SQL Server Object Explorer to examine.
 
-## 2
+## 2 EF Core Auditable Entities
 
+Add Domain items: AuditEntity base class, Invoice, invoiceItems and Enums.
+
+In Application
+
++ Install-Package Microsoft.AspNetCore.Identity.EntityFrameworkCore
+
+and add /Common/Infrastructure/IApplicationDbContext
+
+```c#
+public interface IApplicationDbContext
+{
+    DbSet<Invoice> Invoices { get; set; } 
+    DbSet<InvoiceItem> InvoiceItems { get; set; } 
+    Task<int> SaveChangesAsync(CancellationToken cancellationToken);
+}
+```
+
+then update `InvoiceManagementApp.Infrastructure.Data.ApplicationDbContext` to implement the interface and ctor inject `ICurrentUserService`. Add the `SaveChangesAsync` overrode to implement the audit stuff (sets properties) for any entity of `AuditEntity` type.
+
+Update the DI class: `services.AddScoped<IApplicationDbContext>(provider => provider.GetService<ApplicationDbContext>());`
+
+Next we need `ICurrentUserService` set up:
+
+Update the presentation layer to have a dep on .Application. Add `/Services/CurrentUserService.cs`. This sets `UserId` from the ClaimsPrincipal in the ctor using
+
+```c#
+public CurrentUserService(IHttpContextAccessor httpContextAccessor)
+{
+    UserId = httpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier);
+}
+```
+
+In `StartUp` register `ICurrentUserService` in `ConfigureServices` via `services.AddScoped<ICurrentUserService, CurrentUserService>();`
+
+Finally add a migration as we updated the DbContext. `add-migration AddInvoice` and `update-database`
 
 ## 3
 ## 4

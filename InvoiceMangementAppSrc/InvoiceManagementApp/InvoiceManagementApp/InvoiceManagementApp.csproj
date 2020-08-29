@@ -31,6 +31,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\InvoiceManagementApp.Application\InvoiceManagementApp.Application.csproj" />
     <ProjectReference Include="..\InvoiceManagementApp.Infrastructure\InvoiceManagementApp.Infrastructure.csproj" />
   </ItemGroup>
 

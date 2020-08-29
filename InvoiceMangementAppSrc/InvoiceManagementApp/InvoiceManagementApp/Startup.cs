@@ -1,4 +1,6 @@
+using InvoiceManagementApp.Application.Common.Interfaces;
 using InvoiceManagementApp.Infrastructure;
+using InvoiceManagementApp.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
@@ -21,6 +23,8 @@ namespace InvoiceManagementApp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddInfrastructure(Configuration);
+
+            services.AddScoped<ICurrentUserService, CurrentUserService>();
 
             services.AddControllersWithViews();
             services.AddRazorPages();
