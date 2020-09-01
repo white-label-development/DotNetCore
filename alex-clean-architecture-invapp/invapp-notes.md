@@ -86,7 +86,20 @@ In `StartUp` register `ICurrentUserService` in `ConfigureServices` via `services
 
 Finally add a migration as we updated the DbContext. `add-migration AddInvoice` and `update-database`
 
-## 3
+## 3 MediatR and FluentValidation
+
+In .Application add
+
++ FluentValidation.DependencyInjectionExtensions
++ MediatR.Extensions.Microsoft.DependencyInjection
+
+add 
+
++ Invoices/Commands/CreateInvoiceCommand.cs -  `public class CreateInvoiceCommand : IRequest<int>`
++ Invoices/Handlers/CreateInvoiceCommandHandler.cs - `public class CreateInvoiceCommandHandler: IRequestHandler<CreateInvoiceCommand, int>`. Implements `Handle` method
++ Invoices/ViewModels/CreateInvoiceCommandHandler.cs - vm for Domain `InvoiceItem`
+
+
 ## 4
 ## 5
 ## 6

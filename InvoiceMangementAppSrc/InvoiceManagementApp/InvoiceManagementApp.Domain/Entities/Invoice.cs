@@ -7,7 +7,7 @@ namespace InvoiceManagementApp.Domain.Entities
 {
     public class Invoice : AuditEntity
     {
-        public List<InvoiceItem> InvoiceItems { get; private set; }
+        public List<InvoiceItem> InvoiceItems { get; set; }
 
         public Invoice()
         {
