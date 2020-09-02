@@ -99,6 +99,36 @@ add
 + Invoices/Handlers/CreateInvoiceCommandHandler.cs - `public class CreateInvoiceCommandHandler: IRequestHandler<CreateInvoiceCommand, int>`. Implements `Handle` method
 + Invoices/ViewModels/CreateInvoiceCommandHandler.cs - vm for Domain `InvoiceItem`
 
+add
+
++ Common/Behaviours/ValidationBehaviour.cs - generic validation handler for MediatR Pipeline.
++ Invoices/Validators/CreateInvoiceCommandValidator.cs - rules for `CreateInvoiceCommand` Request object.
++ Invoices/Validators/MustHaveInvoiceItemPropertyValidator.cs - custom validator for `CreateInvoiceCommand.InvoiceItems` property.
++ add /DependencyInjection.cs
+
+then write up Application.DependencyInjection to Startup via `services.AddApplication();`
+
+Next add an API endpoint in InvoiceManagementApp (web/api project)
+
++ Controllers/ApiController.cs - the abstract base class
++ Controllers/InvoiceController.cs - POST `Create(CreateInvoiceCommand command)`
+
+Note: Controllers/ApiController uses
+
+```c#
+protected IMediator Mediator => _mediator ??= HttpContext.RequestServices.GetService<IMediator>();
+// GetService uses Microsoft.Extensions.DependencyInjection. Baffled me for a moment.
+```
+
+Note "??= assigns the value of its right-hand operand to its left-hand operand only if the left-hand operand evaluates to null"
+
+We have a POST, lets add a GET = Query
+
+Add
+
++ .Application/Invoices/Queries/GetUserInvoicesQuery.cs - query param `string User`
++ .Application/ViewModels/InvoiceVm.cs = VM for response object (list of)
++ .Application/Invoices/Handlers/GetUserInvoicesQueryHandler.cs - given a `GetUserInvoicesQuery`, return a `IList<InvoiceVm>`
 
 ## 4
 ## 5
