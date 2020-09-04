@@ -141,7 +141,7 @@ Add
 
 In this version (which I prefer) the Handler is within the Command or Query, rather than it's own class in the /Handlers folder. The major advantage here is that you can "Go to Implementation" from the controller, eg:
 
-```
+```c#
 public class ProductController : ApiController
 {
     [HttpPost]
@@ -157,7 +157,6 @@ _we can click `CreateProductCommand` to get to the next logical part._
 While we are here, lets add Swagger so we need Postman less:
 
 `Install-Package Swashbuckle.AspNetCore.Swagger` and `Install-Package Swashbuckle.AspNetCore` and update Startup.cs for basic open swagger with no xml comments scanning or client generation etc.
-
 
 ## 4 Automapper (inevitable)
 
@@ -175,6 +174,21 @@ result = _mapper.Map<List<InvoiceVm>>(invoices);
 
 
 
-## 5
+## 5 NSwag
+
+.Presentation add `NSwag.AspNetCore`
+
+update Startup.cs with `services.AddOpenApiDocument(...)` and 
+
+```
+ app.UseOpenApi();
+app.UseSwaggerUi3();
+```
+
+Note: the nswag stuff seems to clash with the swagger amends i need earlier. Needs a bit more research to get them working together.
+
+
+
+
 ## 6
 ## 7
