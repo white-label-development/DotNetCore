@@ -83,10 +83,7 @@ namespace InvoiceManagementApp
 
             //nswag
             services.AddOpenApiDocument(configure =>
-            {
-
-                
-
+            {                
                 configure.Title = ApiConfigurationConsts.ApiName + "B";
                 configure.AddSecurity("JWT", Enumerable.Empty<string>(), new NSwag.OpenApiSecurityScheme
                 {

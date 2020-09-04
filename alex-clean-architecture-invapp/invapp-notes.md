@@ -178,7 +178,7 @@ result = _mapper.Map<List<InvoiceVm>>(invoices);
 
 .Presentation add `NSwag.AspNetCore`
 
-update Startup.cs with `services.AddOpenApiDocument(...)` and 
+update Startup.cs with `services.AddOpenApiDocument(...)` and
 
 ```
  app.UseOpenApi();
@@ -187,8 +187,26 @@ app.UseSwaggerUi3();
 
 Note: the nswag stuff seems to clash with the swagger amends i need earlier. Needs a bit more research to get them working together.
 
+add `/ClientApp/src/utils/apiClientBase.ts` which imports AuthorizeService.js which (ata glance) looks like it adds the bearer token to requests
+
+install <https://github.com/RicoSuter/NSwag/wiki/NSwagStudio>
+
+hmnn... just follow these instrcutions
+<https://alexcodetuts.com/2020/02/22/asp-net-core-3-1-clean-architecture-invoice-management-app-part-5-nswag-setting-up-swagger-and-auto-generate-api-client-code/>
 
 
 
-## 6
-## 7
+Path to class extension code = E:\Wunderpus\WLD-GitHub\DotNetCore\InvoiceMangementAppSrc\InvoiceManagementApp\InvoiceManagementApp\ClientApp\src\utils\apiClientBase.ts
+
+output file
+E:\Wunderpus\WLD-GitHub\DotNetCore\InvoiceMangementAppSrc\InvoiceManagementApp\InvoiceManagementApp\ClientApp\src\utils\api.ts
+
+File (top left) > SaveAs nswag.json .Presentaion root.
+
+install Nswag.msbuild yada yada
+
+## 6 & &
+
+React stuff. I CBA
+
+FIN
