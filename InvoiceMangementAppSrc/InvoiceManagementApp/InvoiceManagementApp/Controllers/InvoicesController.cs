@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace InvoiceManagementApp.Controllers
 {
-    [Authorize]
+     [Authorize]
     public class InvoicesController : ApiController
     {
 

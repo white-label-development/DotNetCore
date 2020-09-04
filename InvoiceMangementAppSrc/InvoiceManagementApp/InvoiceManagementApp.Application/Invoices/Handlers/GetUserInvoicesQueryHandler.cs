@@ -1,4 +1,5 @@
-﻿using InvoiceManagementApp.Application.Common.Interfaces;
+﻿using AutoMapper;
+using InvoiceManagementApp.Application.Common.Interfaces;
 using InvoiceManagementApp.Application.Invoices.Queries;
 using InvoiceManagementApp.Application.Invoices.VIewModels;
 using MediatR;
@@ -15,13 +16,31 @@ namespace InvoiceManagementApp.Application.Invoices.Handlers
     public class GetUserInvoicesQueryHandler : IRequestHandler<GetUserInvoicesQuery, IList<InvoiceVm>>
     {
         private readonly IApplicationDbContext _context;
+        private readonly IMapper _mapper;
 
-        public GetUserInvoicesQueryHandler(IApplicationDbContext context)
+        public GetUserInvoicesQueryHandler(IApplicationDbContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         public async Task<IList<InvoiceVm>> Handle(GetUserInvoicesQuery request, CancellationToken cancellationToken)
+        {
+            var invoices = await _context.Invoices.Include(i => i.InvoiceItems)
+                .Where(i => i.CreatedBy == request.User).ToListAsync();
+
+            var result = new List<InvoiceVm>();
+            if (invoices != null)
+            {
+                result = _mapper.Map<List<InvoiceVm>>(invoices);
+            }
+          
+            //nt: pretty sure there is some kind of ProjectTo option? track it down...
+            return result;
+        }
+
+
+        public async Task<IList<InvoiceVm>> Handle_OLD_WithoutAutomapper(GetUserInvoicesQuery request, CancellationToken cancellationToken)
         {
             var invoices = await _context.Invoices.Include(i => i.InvoiceItems)
                 .Where(i => i.CreatedBy == request.User).ToListAsync();
@@ -52,5 +71,6 @@ namespace InvoiceManagementApp.Application.Invoices.Handlers
 
             return vm;
         }
+    
     }
 }

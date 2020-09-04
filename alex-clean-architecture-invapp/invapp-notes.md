@@ -161,6 +161,19 @@ While we are here, lets add Swagger so we need Postman less:
 
 ## 4 Automapper (inevitable)
 
+add `AutoMapper` and `AutoMapper.Extensions.Microsoft.DependencyInjection` to Presentation and Application
+
+add `.Application/Invoices/MappingProfiles/InvoiceMappingProfile.cs`
+
+and update `DependencyInjcetion.cs` with `services.AddAutoMapper(Assembly.GetExecutingAssembly());`
+
+Now the assembly scanning di `:Profile` magic is setup, we map in .Application, eg:
+
+``` c#
+result = _mapper.Map<List<InvoiceVm>>(invoices);
+```
+
+
 
 ## 5
 ## 6
