@@ -24,9 +24,19 @@ namespace InvoiceManagementApp.Infrastructure.Data
             _currentUserService = currentUserService;
         }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Product>().Property(b => b.BuyingPrice).HasColumnType("decimal(18,4)"); // can't these be in the migration? seems weird having them here
+            modelBuilder.Entity<Product>().Property(b => b.Rate).HasColumnType("decimal(18,4)");
+        }
+
 
         public DbSet<Invoice> Invoices { get; set; }
         public DbSet<InvoiceItem> InvoiceItems { get; set; }
+
+        public DbSet<Product> Products { get; set; }
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {

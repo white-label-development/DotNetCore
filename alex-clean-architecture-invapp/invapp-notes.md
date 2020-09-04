@@ -129,8 +129,39 @@ Add
 + .Application/Invoices/Queries/GetUserInvoicesQuery.cs - query param `string User`
 + .Application/ViewModels/InvoiceVm.cs = VM for response object (list of)
 + .Application/Invoices/Handlers/GetUserInvoicesQueryHandler.cs - given a `GetUserInvoicesQuery`, return a `IList<InvoiceVm>`
++ update InvoicesController with `Get()`
 
-## 4
+## 3 1/2 A segue into https://www.codewithmukesh.com/blog/cqrs-in-aspnet-core-3-1/
+
+Add
+
++ .Domain/Entities/Product.cs
++ update ApplicationDbContext, Add-Migration, Update-Database
++ .Application/Products/{Commands, Queries, ViewModels}
+
+In this version (which I prefer) the Handler is within the Command or Query, rather than it's own class in the /Handlers folder. The major advantage here is that you can "Go to Implementation" from the controller, eg:
+
+```
+public class ProductController : ApiController
+{
+    [HttpPost]
+    public async Task<IActionResult> Create(CreateProductCommand command)
+    {
+        return Ok(await Mediator.Send(command));
+    }
+}
+```
+
+_we can click `CreateProductCommand` to get to the next logical part._
+
+While we are here, lets add Swagger so we need Postman less:
+
+`Install-Package Swashbuckle.AspNetCore.Swagger` and `Install-Package Swashbuckle.AspNetCore` and update Startup.cs for basic open swagger with no xml comments scanning or client generation etc.
+
+
+## 4 Automapper (inevitable)
+
+
 ## 5
 ## 6
 ## 7

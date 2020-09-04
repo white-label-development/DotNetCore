@@ -10,6 +10,8 @@ namespace InvoiceManagementApp.Application.Common.Interfaces
 
         DbSet<InvoiceItem> InvoiceItems { get; set; }
 
+        DbSet<Product> Products { get; set; }
+
         // we need to override this
         Task<int> SaveChangesAsync(System.Threading.CancellationToken cancellationToken);
     }
