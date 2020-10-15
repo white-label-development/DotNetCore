@@ -15,6 +15,66 @@ Analogy:
 + Person at hotel show passport to clerk (authentication using "passport scheme").
 + Receives limited access door key (authorization. only some "rooms" can be unlocked).
 
+### ASP.NET Core AuthN setup
+
+In ASP.NET Core, authentication is handled by the `IAuthenticationService`, which is used by authentication middleware. The authentication service uses registered authentication handlers to complete authentication-related actions. The  handlers and their configuration options are called __"schemes"__ (specified by registering authentication services in Startup.ConfigureServices).
+
+after calling the `services.AddAuthentication()` method we can add  scheme-specific extension method (extensions of `IAuthenticationBuilder`), such as `AddJwtBearer` or `AddCookie`.
+These extension methods use `AuthenticationBuilder.AddScheme` to register schemes with appropriate settings.
+
+`.AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options => Configuration.Bind("JwtSettings", options))`
+
+so, .AddJwtBearer is the extension method that register the scheme,
+`JwtBearerDefaults.AuthenticationScheme` is the name of the scheme,
+`options` is the anonymous delegate for configuration.
+The actual handler is deep inside some nuget package or dll.
+
+So the scheme is basically the index of an array of handler + configurations. The scheme is a mechanism or standard for describing challenge and forbid behaviour.
+
+The actual middleware is registered in `Configure`.
+
+[https://dotnetcorecentral.com/blog/authentication-handler-in-asp-net-core/](Has example of creating your own handler for the Basic auth scheme.) eg:
+
+```c#
+services.AddAuthentication("Basic")
+    .AddScheme<BasicAuthenticationOptions, CustomAuthenticationHandler>("Basic", null);
+```
+
+[https://dotnetcorecentral.com/blog/asp-net-core-authorization/] custom AuthN policy handlers that implement logic, eg: User is more than twenty years old.
+
+THe handler is a type that implements the behaviour of a scheme (as defined by the fundamental type of the scheme and the configuration options) so that is can authenticate users. Will usually construct an `AuthenticationTicket` representing the user's identity.
+
+An authN scheme's __authenticate action__ returns an `AuthenticateResult` (success or not) and a the ticket. See AuthenticateAsync. Authenticate examples include:
+
++ A cookie authentication scheme constructing the user's identity from cookies.
++ A JWT bearer scheme deserializing and validating a JWT bearer token to construct the user's identity.
+
+An authN scheme's __challenge action__ invoked on request of a secure resource. authN invokens the challenge as per the configured scheme (else the defaults). Authentication challenge examples include:
+
++ A cookie authentication scheme redirecting the user to a login page.
++ A JWT bearer scheme returning a 401 result with a www-authenticate: bearer header.
+
+A __forbid action__ can let the user know:
+
++ They are authenticated.
++ They aren't permitted to access the requested resource.
+
+_for multi-tenant authentication look at Orchard Core_
+
+
+
+### Identity with/out Asp.Net Identity
+
+Asp Identity is not any kind of requirement. The AspNetUsers table is the central table where the primary user information is stored. Linked to that is the AspNetUserLogins table which allows ASP.NET Identity to store any number of logins associated to that user. An external login contains fields for the LoginProvider (eg: "github") and ProviderKey (eg: the id is the user with google). After a (github) login the `ClaimsIdentity` get returned. This contains the claims, including the unique ID of the user on GitHub.
+
+The ASP.NET MVC template has code which then extracts that ID, checks whether the user is signed in already and associate and external login with the user, or alternatively it will create a new user and also adds an external login for that user with the LoginProvider set to “GitHub” and the ProviderKey set to the ID of the user on GitHub. This part uses the ASP.NET Identity APIs. It's how the ASP Identity tables get populated.
+
+ONGOING..
+
+### WTF is Microsoft Identity Platform
+
+I think it's the Azure version of Identity Server? it's an Identity Provider.
+
 ### Identity cookie
 
 Needs to specify a name for the authentication scheme, which serves as the lookup string for the authentication methods configured. Default for cookie scheme is 'Cookies'
