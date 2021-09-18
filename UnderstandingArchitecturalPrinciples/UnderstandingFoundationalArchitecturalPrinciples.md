@@ -54,4 +54,12 @@ blah...
 
 contains interfaces (the contracts I guess), ef: IAsyncRepository
 
-@4 cqrs
+```c#
+RuleFor(p => p.Name)
+    .NotEmpty().WithMessage("{PropertyName} is required")
+    .NotNull()
+    .MaximumLangth(50).WithMessage("{PropertyName} s 50 char max");
+
+RueFor(e => e).MustAsync(NameUnique).WithMessage("...");
+// where validator class has NameUnique(MyCommand c, CancellationToken token) returns await -ctx.IsNameUnique(c.Name) and so on.
+```
